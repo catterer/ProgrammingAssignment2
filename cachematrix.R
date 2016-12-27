@@ -1,15 +1,25 @@
-## Put comments here that give an overall description of what your
-## functions do
+## Calculate inverted matrix with caching
 
-## Write a short comment describing this function
+## Create object containing original and inverted matrixes
+makeCacheMatrix <- function(orig = matrix()) {
+  inv <- NULL
+  set <- function(y) {
+    orig <<- y
+    inv <<- NULL
+  }
+  get <- function() orig
+  setinv <- function(i) inv <<- i
+  getinv <- function() inv
 
-makeCacheMatrix <- function(x = matrix()) {
-
+  list(set = set, get = get,
+       setinv = setinv,
+       getinv = getinv)
 }
 
-
-## Write a short comment describing this function
-
+## Calculate inverted matrix if needed. Return it.
 cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
+  if (is.null(x$getinv()))
+    x$setinv(solve(x$get()))
+
+  x$getinv()
 }
